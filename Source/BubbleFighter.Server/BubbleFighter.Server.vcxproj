@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{A10B5F38-83C3-40D9-ABE5-E61B99D7C354}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>BubbleFighter.Server</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(MSBuildProjectDirectory)\..\..\Artifacts\Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(MSBuildProjectDirectory)\..\..\Artifacts\Obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>BubbleFighter.Server</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Application\ServerApplication.cpp" />
+    <ClCompile Include="Application\LocalAccountCommand.cpp" />
+    <ClCompile Include="Network\TcpServer.cpp" />
+    <ClCompile Include="Protocol\AdditiveStreamCipher.cpp" />
+    <ClCompile Include="Protocol\ConnectionGreeting.cpp" />
+    <ClCompile Include="Protocol\PacketStreamDecoder.cpp" />
+    <ClCompile Include="Protocol\TcpPacketCodec.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\ServerApplication.h" />
+    <ClInclude Include="Application\LocalAccountCommand.h" />
+    <ClInclude Include="Network\TcpServer.h" />
+    <ClInclude Include="Protocol\AdditiveStreamCipher.h" />
+    <ClInclude Include="Protocol\ConnectionGreeting.h" />
+    <ClInclude Include="Protocol\PacketStreamDecoder.h" />
+    <ClInclude Include="Protocol\TcpPacketCodec.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\PacketReader.cpp" />
+    <ClCompile Include="Protocol\PacketWriter.cpp" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x0001.cpp" />
+    <ClCompile Include="Protocol\GamePatchResponse.cpp" />
+    <ClCompile Include="Protocol\LoginRequest.cpp" />
+    <ClCompile Include="Protocol\LoginResponse.cpp" />
+    <ClCompile Include="Features\Authentication\InitialHandshake.cpp" />
+    <ClInclude Include="Protocol\PacketReader.h" />
+    <ClInclude Include="Protocol\PacketWriter.h" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x0001.h" />
+    <ClInclude Include="Protocol\GamePatchResponse.h" />
+    <ClInclude Include="Protocol\LoginRequest.h" />
+    <ClInclude Include="Protocol\LoginResponse.h" />
+    <ClInclude Include="Features\Authentication\InitialHandshake.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Authentication\CredentialCrypto.cpp" />
+    <ClCompile Include="Features\Authentication\LocalAuthentication.cpp" />
+    <ClCompile Include="Persistence\MySqlConnection.cpp" />
+    <ClCompile Include="Persistence\MySqlAccountStore.cpp" />
+    <ClInclude Include="Features\Authentication\CredentialCrypto.h" />
+    <ClInclude Include="Features\Authentication\LocalAuthentication.h" />
+    <ClInclude Include="Features\Authentication\AccountStore.h" />
+    <ClInclude Include="Persistence\MySqlConnection.h" />
+    <ClInclude Include="Persistence\MySqlAccountStore.h" />
+    <None Include="Persistence\Migrations\CreateLocalAccounts.sql" />
+    <None Include="Persistence\Migrations\CreateCharacters.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\MoveIntoResponse.cpp" />
+    <ClInclude Include="Protocol\MoveIntoResponse.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\FighterInfo.cpp" />
+    <ClInclude Include="Protocol\FighterInfo.h" />
+    <ClCompile Include="Protocol\UserStatNotification.cpp" />
+    <ClInclude Include="Protocol\UserStatNotification.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\CheckCreateUserNameRequest.cpp" />
+    <ClInclude Include="Protocol\CheckCreateUserNameRequest.h" />
+    <ClCompile Include="Protocol\CheckCreateUserNameResponse.cpp" />
+    <ClInclude Include="Protocol\CheckCreateUserNameResponse.h" />
+    <ClCompile Include="Protocol\CreateUserInfoRequest.cpp" />
+    <ClInclude Include="Protocol\CreateUserInfoRequest.h" />
+    <ClCompile Include="Protocol\CreateUserInfoResponse.cpp" />
+    <ClInclude Include="Protocol\CreateUserInfoResponse.h" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x0021.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x0021.h" />
+  </ItemGroup>
+  <Import Project="$(MSBuildProjectDirectory)\..\..\Build\MySql.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <ClCompile Include="Protocol\CenterListNotification.cpp" />
+    <ClInclude Include="Protocol\CenterListNotification.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Authentication\GameLoginSession.cpp" />
+    <ClInclude Include="Features\Authentication\GameLoginSession.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\CreateUserInfoNotification.cpp" />
+    <ClInclude Include="Protocol\CreateUserInfoNotification.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Features\Characters\CharacterStore.h" />
+    <ClInclude Include="Features\Characters\CharacterCreation.h" />
+    <ClCompile Include="Features\Characters\CharacterCreation.cpp" />
+    <ClInclude Include="Persistence\MySqlCommands.h" />
+    <ClInclude Include="Persistence\MySqlCharacterStore.h" />
+    <ClCompile Include="Persistence\MySqlCharacterStore.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\DynamicConfigRequest.cpp" />
+    <ClInclude Include="Protocol\DynamicConfigRequest.h" />
+    <ClCompile Include="Protocol\DynamicConfigResponse.cpp" />
+    <ClInclude Include="Protocol\DynamicConfigResponse.h" />
+    <ClCompile Include="Protocol\ContentConfiguration.cpp" />
+    <ClInclude Include="Protocol\ContentConfiguration.h" />
+    <ClCompile Include="Protocol\ZlibStoredStream.cpp" />
+    <ClInclude Include="Protocol\ZlibStoredStream.h" />
+    <ClCompile Include="Features\Configuration\LocalDynamicConfiguration.cpp" />
+    <ClInclude Include="Features\Configuration\LocalDynamicConfiguration.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Authentication\LoginProfile.cpp" />
+    <ClInclude Include="Features\Authentication\LoginProfile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\UpdatePartyNotification.cpp" />
+    <ClInclude Include="Protocol\UpdatePartyNotification.h" />
+    <ClCompile Include="Features\Parties\SoloParty.cpp" />
+    <ClInclude Include="Features\Parties\SoloParty.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\ClientToServerMessage0x006A.cpp" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x0069.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x006A.h" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x0069.h" />
+    <ClCompile Include="Protocol\GotoLobbyNotification.cpp" />
+    <ClInclude Include="Protocol\GotoLobbyNotification.h" />
+    <ClCompile Include="Features\Lobby\LobbySession.cpp" />
+    <ClInclude Include="Features\Lobby\LobbySession.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\SessionDescriptor.cpp" />
+    <ClInclude Include="Protocol\SessionDescriptor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\GotoRoomNotification.cpp" />
+    <ClInclude Include="Protocol\GotoRoomNotification.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\InventoryViewUpdateNotification.cpp" />
+    <ClInclude Include="Protocol\InventoryViewUpdateNotification.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Scenes\SceneRoster.cpp" />
+    <ClInclude Include="Features\Scenes\SceneRoster.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Characters\CharacterStatistics.cpp" />
+    <ClInclude Include="Features\Characters\CharacterStatistics.h" />
+    <ClCompile Include="Features\Characters\CharacterProfile.cpp" />
+    <ClInclude Include="Features\Characters\CharacterProfile.h" />
+    <None Include="Persistence\Migrations\AddCharacterStatistics.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\InventoryItemRecord.cpp" />
+    <ClInclude Include="Protocol\InventoryItemRecord.h" />
+    <ClCompile Include="Protocol\InventoryUpdateAllNotification.cpp" />
+    <ClInclude Include="Protocol\InventoryUpdateAllNotification.h" />
+    <ClCompile Include="Protocol\WeaponPresetUpdateNotification.cpp" />
+    <ClInclude Include="Protocol\WeaponPresetUpdateNotification.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Inventory\InventorySlot.cpp" />
+    <ClInclude Include="Features\Inventory\InventorySlot.h" />
+    <ClInclude Include="Features\Inventory\InventoryStore.h" />
+    <ClCompile Include="Persistence\MySqlInventoryStore.cpp" />
+    <ClInclude Include="Persistence\MySqlInventoryStore.h" />
+    <None Include="Persistence\Migrations\CreateInventorySlots.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\ClientToServerMessage0x0209.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x0209.h" />
+    <ClCompile Include="Features\Authentication\MenuInitialization.cpp" />
+    <ClCompile Include="Features\Authentication\LocalMenuData.cpp" />
+    <ClInclude Include="Features\Authentication\MenuInitialization.h" />
+    <ClInclude Include="Features\Authentication\LocalMenuData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\InventoryRefreshRequest.cpp" />
+    <ClInclude Include="Protocol\InventoryRefreshRequest.h" />
+    <ClCompile Include="Features\Inventory\InventoryRefresh.cpp" />
+    <ClInclude Include="Features\Inventory\InventoryRefresh.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Inventory\ItemCatalog.cpp" />
+    <ClInclude Include="Features\Inventory\ItemCatalog.h" />
+    <ClCompile Include="Features\Inventory\EquipmentView.cpp" />
+    <ClInclude Include="Features\Inventory\EquipmentView.h" />
+    <ClInclude Include="Features\Inventory\ItemCatalogData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\EquipItemRequest.cpp" />
+    <ClInclude Include="Protocol\EquipItemRequest.h" />
+    <ClCompile Include="Protocol\UnequipItemRequest.cpp" />
+    <ClInclude Include="Protocol\UnequipItemRequest.h" />
+    <ClCompile Include="Features\Inventory\EquipmentChange.cpp" />
+    <ClInclude Include="Features\Inventory\EquipmentChange.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Protocol\ShopEntryRequest.cpp"></ClCompile>
+    <ClCompile Include="Protocol\ShopEntryResponse.cpp"></ClCompile>
+    <ClInclude Include="Protocol\ShopEntryRequest.h"></ClInclude>
+    <ClInclude Include="Protocol\ShopEntryResponse.h"></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Shop\ShopStockCatalog.cpp"></ClCompile>
+    <ClInclude Include="Features\Shop\ShopStockCatalog.h"></ClInclude>
+    <ClInclude Include="Features\Shop\ShopStockCatalogData.h"></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Shop\ShopCatalog.cpp"></ClCompile>
+    <ClInclude Include="Features\Shop\ShopCatalog.h"></ClInclude>
+    <ClInclude Include="Features\Shop\ShopCatalogData.h"></ClInclude>
+    <ClCompile Include="Features\Shop\LocalShopCatalog.cpp"></ClCompile>
+    <ClInclude Include="Features\Shop\LocalShopCatalog.h"></ClInclude>
+  </ItemGroup>
+</Project>
