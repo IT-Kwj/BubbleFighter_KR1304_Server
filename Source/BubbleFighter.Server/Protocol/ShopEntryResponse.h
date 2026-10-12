@@ -62,7 +62,9 @@ namespace BubbleFighter::Server::Protocol
         // Local resource limits, not original server constants.
         static constexpr std::size_t MaxCollectionEntries = 8192;
         static constexpr std::size_t MaxTotalCollectionEntries = 32768;
-        static constexpr std::size_t MaxPayloadBytes = TcpPacketCodec::DefaultMaxPayloadSize;
+        // Full pinned catalog is about 1.1 MiB. Keep the larger allowance local
+        // to S800; inbound TCP decoding retains its existing 1 MiB bound.
+        static constexpr std::size_t MaxPayloadBytes = 2 * 1024 * 1024;
         // The first value is NOT established as a success/result code.
         std::uint32_t ValueAt0 = 0;
         bool RefreshCatalog = false;

@@ -185,6 +185,37 @@ namespace BubbleFighter::Server::Protocol
         }
     }
 
+    void WriteSessionMember(PacketWriter& writer, const SessionMember& value, std::size_t& budget)
+    { WriteMember(writer, value, budget); }
+    SessionMember ReadSessionMember(PacketReader& reader, std::size_t& budget)
+    { return ReadMember(reader, budget); }
+    void WriteSessionRecords(PacketWriter& writer, const std::vector<PartySupplementaryRecord>& records, std::size_t& budget)
+    { WriteEntries(writer, records, budget, [&](const auto& record) { record.Write(writer, budget); }); }
+    std::vector<PartySupplementaryRecord> ReadSessionRecords(PacketReader& reader, std::size_t& budget)
+    { return ReadEntries<PartySupplementaryRecord>(reader, budget, 28, [&] { return PartySupplementaryRecord::Read(reader, budget); }); }
+    void WriteSessionTeam(PacketWriter& writer, const SessionTeam& team, std::size_t& budget)
+    {
+        WriteEntries(writer, team.Groups, budget, [&](const SessionTeamGroup& group)
+        {
+            writer.WriteUInt8(group.SignedKey);
+            WriteVector(writer, group.Values, budget);
+        });
+        for (const auto& values : team.Values) { WriteVector(writer, values, budget); }
+    }
+    SessionTeam ReadSessionTeam(PacketReader& reader, std::size_t& budget)
+    {
+        SessionTeam team;
+        team.Groups = ReadEntries<SessionTeamGroup>(reader, budget, 5, [&]
+        {
+            SessionTeamGroup group;
+            group.SignedKey = reader.ReadUInt8();
+            group.Values = ReadVector(reader, budget);
+            return group;
+        });
+        for (auto& values : team.Values) { values = ReadVector(reader, budget); }
+        return team;
+    }
+
     TcpPacket GotoRoomNotification::Encode() const
     {
         PacketWriter writer;
@@ -193,15 +224,9 @@ namespace BubbleFighter::Server::Protocol
         writer.WriteUInt32(ValueAt544);
         writer.WriteUInt32(ValueAt548);
         WriteEntries(writer, Members, budget, [&](const auto& member) { WriteMember(writer, member, budget); });
-        const auto writeRecord = [&](const PartySupplementaryRecord& record) { record.Write(writer, budget); };
-        WriteEntries(writer, RecordsAt564, budget, writeRecord);
-        WriteEntries(writer, RecordsAt588, budget, writeRecord);
-        WriteEntries(writer, Team.Groups, budget, [&](const SessionTeamGroup& group)
-        {
-            writer.WriteUInt8(group.SignedKey);
-            WriteVector(writer, group.Values, budget);
-        });
-        for (const auto& values : Team.Values) { WriteVector(writer, values, budget); }
+        WriteSessionRecords(writer, RecordsAt564, budget);
+        WriteSessionRecords(writer, RecordsAt588, budget);
+        WriteSessionTeam(writer, Team, budget);
         WriteOptional(writer, MarkerAt648, OptionalAt648,
             [&](const auto& fields) { WriteFields(writer, fields, budget); });
         writer.WriteUInt32(ValueAt728);
@@ -220,17 +245,9 @@ namespace BubbleFighter::Server::Protocol
         message.ValueAt544 = reader.ReadUInt32();
         message.ValueAt548 = reader.ReadUInt32();
         message.Members = ReadEntries<SessionMember>(reader, budget, 188, [&] { return ReadMember(reader, budget); });
-        const auto readRecord = [&] { return PartySupplementaryRecord::Read(reader, budget); };
-        message.RecordsAt564 = ReadEntries<PartySupplementaryRecord>(reader, budget, 28, readRecord);
-        message.RecordsAt588 = ReadEntries<PartySupplementaryRecord>(reader, budget, 28, readRecord);
-        message.Team.Groups = ReadEntries<SessionTeamGroup>(reader, budget, 5, [&]
-        {
-            SessionTeamGroup group;
-            group.SignedKey = reader.ReadUInt8();
-            group.Values = ReadVector(reader, budget);
-            return group;
-        });
-        for (auto& values : message.Team.Values) { values = ReadVector(reader, budget); }
+        message.RecordsAt564 = ReadSessionRecords(reader, budget);
+        message.RecordsAt588 = ReadSessionRecords(reader, budget);
+        message.Team = ReadSessionTeam(reader, budget);
         message.MarkerAt648 = reader.ReadUInt8();
         if (message.MarkerAt648 == PresentMarker) { message.OptionalAt648 = ReadFields(reader, budget); }
         message.ValueAt728 = reader.ReadUInt32();

@@ -3,6 +3,8 @@
 #include "Features/Characters/CharacterStore.h"
 #include "Features/Inventory/InventorySlot.h"
 #include "Features/Inventory/InventoryRefresh.h"
+#include "Features/Inventory/CashInventory.h"
+#include <optional>
 #include "Protocol/GotoRoomNotification.h"
 #include "Protocol/UserStatNotification.h"
 #include "Protocol/WeaponPresetUpdateNotification.h"
@@ -20,6 +22,8 @@ namespace BubbleFighter::Server::Features::Authentication
         Protocol::PartySupplementaryRecord Equipment;
         Protocol::WeaponPresetUpdateNotification Presets;
         Inventory::CharacterInventory Inventory;
+        // Optional only for legacy callers; MySQL always supplies a loaded snapshot.
+        std::optional<Inventory::CashInventory> Cash;
     };
 
     class MenuInitialization

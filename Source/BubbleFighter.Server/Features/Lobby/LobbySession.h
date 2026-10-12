@@ -17,6 +17,7 @@ namespace BubbleFighter::Server::Features::Lobby
         Protocol::TcpPacket RequestEntry(const Protocol::ClientToServerMessage0x006A&,
             Protocol::GotoRoomNotification scene, Scenes::SceneSlot localPlayer,
             std::uint64_t authenticatedAccountId);
+        void SnapshotPublished() noexcept { state_ = LobbyEntryState::SnapshotSent; }
         LobbyEntryState State() const noexcept;
     private:
         LobbyEntryState state_ = LobbyEntryState::AwaitingRequest;

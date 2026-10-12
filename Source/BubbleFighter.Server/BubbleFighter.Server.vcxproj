@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version='1.0' encoding='utf-8'?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -279,21 +279,317 @@
     <ClInclude Include="Features\Inventory\EquipmentChange.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Protocol\ShopEntryRequest.cpp"></ClCompile>
-    <ClCompile Include="Protocol\ShopEntryResponse.cpp"></ClCompile>
-    <ClInclude Include="Protocol\ShopEntryRequest.h"></ClInclude>
-    <ClInclude Include="Protocol\ShopEntryResponse.h"></ClInclude>
+    <ClCompile Include="Protocol\ShopEntryRequest.cpp" />
+    <ClCompile Include="Protocol\ShopEntryResponse.cpp" />
+    <ClInclude Include="Protocol\ShopEntryRequest.h" />
+    <ClInclude Include="Protocol\ShopEntryResponse.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Features\Shop\ShopStockCatalog.cpp"></ClCompile>
-    <ClInclude Include="Features\Shop\ShopStockCatalog.h"></ClInclude>
-    <ClInclude Include="Features\Shop\ShopStockCatalogData.h"></ClInclude>
+    <ClCompile Include="Features\Shop\ShopStockCatalog.cpp" />
+    <ClInclude Include="Features\Shop\ShopStockCatalog.h" />
+    <ClInclude Include="Features\Shop\ShopStockCatalogData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Features\Shop\ShopCatalog.cpp"></ClCompile>
-    <ClInclude Include="Features\Shop\ShopCatalog.h"></ClInclude>
-    <ClInclude Include="Features\Shop\ShopCatalogData.h"></ClInclude>
-    <ClCompile Include="Features\Shop\LocalShopCatalog.cpp"></ClCompile>
-    <ClInclude Include="Features\Shop\LocalShopCatalog.h"></ClInclude>
+    <ClCompile Include="Features\Shop\ShopCatalog.cpp" />
+    <ClInclude Include="Features\Shop\ShopCatalog.h" />
+    <ClInclude Include="Features\Shop\ShopCatalogData.h" />
+    <ClInclude Include="Features\Shop\ShopFallbackStockData.h" />
+    <ClCompile Include="Features\Shop\LocalShopCatalog.cpp" />
+    <ClInclude Include="Features\Shop\LocalShopCatalog.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol\CashInventorySlotRecord.h" />
+    <ClInclude Include="Protocol\CashInventoryUpdateNotification.h" />
+    <ClCompile Include="Protocol\CashInventoryUpdateNotification.cpp" />
+    <ClInclude Include="Protocol\CashInventoryPickupRequest.h" />
+    <ClCompile Include="Protocol\CashInventoryPickupRequest.cpp" />
+    <ClInclude Include="Protocol\CashInventoryPickupResponse.h" />
+    <ClCompile Include="Protocol\CashInventoryPickupResponse.cpp" />
+    <ClInclude Include="Features\Inventory\CashInventory.h" />
+    <ClCompile Include="Features\Inventory\CashInventory.cpp" />
+    <ClInclude Include="Features\Inventory\InventoryGrant.h" />
+    <ClCompile Include="Features\Inventory\InventoryGrant.cpp" />
+    <ClInclude Include="Features\Shop\CashShop.h" />
+    <ClCompile Include="Features\Shop\CashShop.cpp" />
+    <None Include="Persistence\Migrations\CreateCashInventorySlots.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Practice\PracticeEntry.cpp" />
+    <ClInclude Include="Features\Practice\PracticeEntry.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Battle\WeaponCatalog.cpp" />
+    <ClInclude Include="Features\Battle\WeaponCatalog.h" />
+    <ClInclude Include="Features\Battle\WeaponCatalogData.h" />
+    <ClCompile Include="Features\Inventory\ItemUse.cpp" />
+    <ClInclude Include="Features\Inventory\ItemUse.h" />
+    <ClCompile Include="Features\Inventory\WeaponPresetState.cpp" />
+    <ClInclude Include="Features\Inventory\WeaponPresetState.h" />
+    <ClCompile Include="Features\Practice\PracticeSession.cpp" />
+    <ClInclude Include="Features\Practice\PracticeSession.h" />
+    <ClCompile Include="Features\Shop\ShopPurchase.cpp" />
+    <ClInclude Include="Features\Shop\ShopPurchase.h" />
+    <ClCompile Include="Network\ConnectionHeartbeat.cpp" />
+    <ClInclude Include="Network\ConnectionHeartbeat.h" />
+    <None Include="Persistence\Migrations\CreateWeaponPresets.sql" />
+    <None Include="Persistence\Migrations\ExpandCashInventoryUsage.sql" />
+    <ClCompile Include="Protocol\CashBalanceRequest.cpp" />
+    <ClInclude Include="Protocol\CashBalanceRequest.h" />
+    <ClCompile Include="Protocol\CashBalanceResponse.cpp" />
+    <ClInclude Include="Protocol\CashBalanceResponse.h" />
+    <ClCompile Include="Protocol\ClientPingResponse.cpp" />
+    <ClInclude Include="Protocol\ClientPingResponse.h" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x006B.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x006B.h" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x0243.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x0243.h" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x025F.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x025F.h" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x0260.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x0260.h" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x0270.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x0270.h" />
+    <ClCompile Include="Protocol\ClientToServerMessage0x07ED.cpp" />
+    <ClInclude Include="Protocol\ClientToServerMessage0x07ED.h" />
+    <ClCompile Include="Protocol\CompressedShotRecord.cpp" />
+    <ClInclude Include="Protocol\CompressedShotRecord.h" />
+    <ClCompile Include="Protocol\GameActorDeathNotification.cpp" />
+    <ClInclude Include="Protocol\GameActorDeathNotification.h" />
+    <ClCompile Include="Protocol\GameActorRespawnWaitNotification.cpp" />
+    <ClInclude Include="Protocol\GameActorRespawnWaitNotification.h" />
+    <ClCompile Include="Protocol\GameCountdownNotification.cpp" />
+    <ClInclude Include="Protocol\GameCountdownNotification.h" />
+    <ClCompile Include="Protocol\GameDamagerRemoveNotification.cpp" />
+    <ClInclude Include="Protocol\GameDamagerRemoveNotification.h" />
+    <ClCompile Include="Protocol\GameExtendedShotNotification.cpp" />
+    <ClInclude Include="Protocol\GameExtendedShotNotification.h" />
+    <ClCompile Include="Protocol\GameHitNotification.cpp" />
+    <ClInclude Include="Protocol\GameHitNotification.h" />
+    <ClCompile Include="Protocol\GameLoadNotification.cpp" />
+    <ClInclude Include="Protocol\GameLoadNotification.h" />
+    <ClCompile Include="Protocol\GameLoadingCompleteRequest.cpp" />
+    <ClInclude Include="Protocol\GameLoadingCompleteRequest.h" />
+    <ClCompile Include="Protocol\GameMovementDeltaNotification.cpp" />
+    <ClInclude Include="Protocol\GameMovementDeltaNotification.h" />
+    <ClCompile Include="Protocol\GameMovementNotification.cpp" />
+    <ClInclude Include="Protocol\GameMovementNotification.h" />
+    <ClCompile Include="Protocol\GameOverNotification.cpp" />
+    <ClInclude Include="Protocol\GameOverNotification.h" />
+    <ClCompile Include="Protocol\GameReportRequest.cpp" />
+    <ClInclude Include="Protocol\GameReportRequest.h" />
+    <ClCompile Include="Protocol\GameRespawnCompletionNotification.cpp" />
+    <ClInclude Include="Protocol\GameRespawnCompletionNotification.h" />
+    <ClCompile Include="Protocol\GameRespawnNotification.cpp" />
+    <ClInclude Include="Protocol\GameRespawnNotification.h" />
+    <ClCompile Include="Protocol\GameRespawnRequest.cpp" />
+    <ClInclude Include="Protocol\GameRespawnRequest.h" />
+    <ClCompile Include="Protocol\GameResultNotification.cpp" />
+    <ClInclude Include="Protocol\GameResultNotification.h" />
+    <ClCompile Include="Protocol\GameResultPresentationNotification.cpp" />
+    <ClCompile Include="Protocol\GameReturnToRoomNotification.cpp" />
+    <ClInclude Include="Protocol\GameResultPresentationNotification.h" />
+    <ClInclude Include="Protocol\GameReturnToRoomNotification.h" />
+    <ClCompile Include="Protocol\GameScoreNotification.cpp" />
+    <ClInclude Include="Protocol\GameScoreNotification.h" />
+    <ClCompile Include="Protocol\GameScorePlayerUpdateNotification.cpp" />
+    <ClInclude Include="Protocol\GameScorePlayerUpdateNotification.h" />
+    <ClCompile Include="Protocol\GameScoreRecord.cpp" />
+    <ClInclude Include="Protocol\GameScoreRecord.h" />
+    <ClCompile Include="Protocol\GameScoreUpdateNotification.cpp" />
+    <ClInclude Include="Protocol\GameScoreUpdateNotification.h" />
+    <ClCompile Include="Protocol\GameScoreValueUpdate.cpp" />
+    <ClInclude Include="Protocol\GameScoreValueUpdate.h" />
+    <ClCompile Include="Protocol\GameShotNotification.cpp" />
+    <ClInclude Include="Protocol\GameShotNotification.h" />
+    <ClCompile Include="Protocol\GameStartNotification.cpp" />
+    <ClInclude Include="Protocol\GameStartNotification.h" />
+    <ClCompile Include="Protocol\GameTransportOptionsNotification.cpp" />
+    <ClInclude Include="Protocol\GameTransportOptionsNotification.h" />
+    <ClCompile Include="Protocol\ItemUseArguments.cpp" />
+    <ClInclude Include="Protocol\ItemUseArguments.h" />
+    <ClCompile Include="Protocol\ItemUseRequest.cpp" />
+    <ClInclude Include="Protocol\ItemUseRequest.h" />
+    <ClCompile Include="Protocol\ItemUseResponse.cpp" />
+    <ClInclude Include="Protocol\ItemUseResponse.h" />
+    <ClCompile Include="Protocol\RespawnParameters.cpp" />
+    <ClInclude Include="Protocol\RespawnParameters.h" />
+    <ClCompile Include="Protocol\ServerPingRequest.cpp" />
+    <ClInclude Include="Protocol\ServerPingRequest.h" />
+    <ClCompile Include="Protocol\ServerToClientMessage0x025E.cpp" />
+    <ClInclude Include="Protocol\ServerToClientMessage0x025E.h" />
+    <ClCompile Include="Protocol\ShopPurchaseRequest.cpp" />
+    <ClInclude Include="Protocol\ShopPurchaseRequest.h" />
+    <ClCompile Include="Protocol\ShopPurchaseResponse.cpp" />
+    <ClInclude Include="Protocol\ShopPurchaseResponse.h" />
+    <ClCompile Include="Protocol\WeaponPresetChangeRequest.cpp" />
+    <ClInclude Include="Protocol\WeaponPresetChangeRequest.h" />
+    <ClCompile Include="Protocol\WeaponPresetChangeResponse.cpp" />
+    <ClInclude Include="Protocol\WeaponPresetChangeResponse.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Features\Rooms\RoomActions.h" />
+    <ClInclude Include="Features\Rooms\RoomCreation.h" />
+    <ClInclude Include="Features\Rooms\RoomGameSession.h" />
+    <ClInclude Include="Features\Rooms\RoomMapCatalog.h" />
+    <ClInclude Include="Features\Rooms\RoomMapCatalogData.h" />
+    <ClInclude Include="Features\Rooms\RoomPacketQueue.h" />
+    <ClInclude Include="Features\Rooms\RoomRegistry.h" />
+    <ClInclude Include="Features\Rooms\RoomRoster.h" />
+    <ClCompile Include="Features\Rooms\RoomActions.cpp" />
+    <ClCompile Include="Features\Rooms\RoomCreation.cpp" />
+    <ClCompile Include="Features\Rooms\RoomGameSession.cpp" />
+    <ClCompile Include="Features\Rooms\RoomMapCatalog.cpp" />
+    <ClCompile Include="Features\Rooms\RoomPacketQueue.cpp" />
+    <ClCompile Include="Features\Rooms\RoomRegistry.cpp" />
+    <ClCompile Include="Features\Rooms\RoomRoster.cpp" />
+    <ClInclude Include="Protocol\CreateRoomRequest.h" />
+    <ClCompile Include="Protocol\CreateRoomRequest.cpp" />
+    <ClInclude Include="Protocol\CreateRoomResponse.h" />
+    <ClCompile Include="Protocol\CreateRoomResponse.cpp" />
+    <ClInclude Include="Protocol\RoomListRequest.h" />
+    <ClCompile Include="Protocol\RoomListRequest.cpp" />
+    <ClInclude Include="Protocol\RoomListResponse.h" />
+    <ClCompile Include="Protocol\RoomListResponse.cpp" />
+    <ClInclude Include="Protocol\JoinRoomRequest.h" />
+    <ClCompile Include="Protocol\JoinRoomRequest.cpp" />
+    <ClInclude Include="Protocol\JoinRoomResponse.h" />
+    <ClCompile Include="Protocol\JoinRoomResponse.cpp" />
+    <ClInclude Include="Protocol\LeaveRoomRequest.h" />
+    <ClCompile Include="Protocol\LeaveRoomRequest.cpp" />
+    <ClInclude Include="Protocol\RoomReadyRequest.h" />
+    <ClCompile Include="Protocol\RoomReadyRequest.cpp" />
+    <ClInclude Include="Protocol\RoomSlotUpdateNotification.h" />
+    <ClCompile Include="Protocol\RoomSlotUpdateNotification.cpp" />
+    <ClInclude Include="Protocol\RoomMemberLeftNotification.h" />
+    <ClCompile Include="Protocol\RoomMemberLeftNotification.cpp" />
+    <ClInclude Include="Protocol\RoomHostChangedNotification.h" />
+    <ClCompile Include="Protocol\RoomHostChangedNotification.cpp" />
+    <ClInclude Include="Protocol\StartGameRequest.h" />
+    <ClCompile Include="Protocol\StartGameRequest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol\GameActorDamageResultNotification.h" />
+    <ClCompile Include="Protocol\GameActorDamageResultNotification.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Features\Inventory\DefaultInventory.cpp" />
+    <ClInclude Include="Features\Inventory\DefaultInventory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol\GameBubbleContactPopRequest.h" />
+    <ClCompile Include="Protocol\GameBubbleContactPopRequest.cpp" />
+    <ClInclude Include="Protocol\GameBubbleDeflectNotification.h" />
+    <ClCompile Include="Protocol\GameBubbleDeflectNotification.cpp" />
+    <ClInclude Include="Protocol\GameBubbleExitNotification.h" />
+    <ClCompile Include="Protocol\GameBubbleExitNotification.cpp" />
+    <ClInclude Include="Protocol\GameBubblePopNotification.h" />
+    <ClCompile Include="Protocol\GameBubblePopNotification.cpp" />
+    <ClInclude Include="Protocol\GameBubbleRescueEffectNotification.h" />
+    <ClCompile Include="Protocol\GameBubbleRescueEffectNotification.cpp" />
+    <ClInclude Include="Protocol\GameBubbleRescueNotification.h" />
+    <ClCompile Include="Protocol\GameBubbleRescueNotification.cpp" />
+    <ClInclude Include="Protocol\GameBubbleRescueRequest.h" />
+    <ClCompile Include="Protocol\GameBubbleRescueRequest.cpp" />
+    <ClInclude Include="Protocol\GameBubbleShotPopRequest.h" />
+    <ClCompile Include="Protocol\GameBubbleShotPopRequest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Features\Rooms\LocalMatchRules.h" />
+    <ClCompile Include="Features\Rooms\LocalMatchRules.cpp" />
+    <ClInclude Include="Features\Rooms\RoomMatchSettlement.h" />
+    <ClInclude Include="Features\Rooms\RoomSettlementQueue.h" />
+    <ClCompile Include="Features\Rooms\RoomMatchSettlement.cpp" />
+    <ClCompile Include="Features\Rooms\RoomSettlementQueue.cpp" />
+    <ClInclude Include="Persistence\MySqlMatchStore.h" />
+    <ClCompile Include="Persistence\MySqlMatchStore.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="Features\Battle\CombatWeaponCatalog.h" />
+    <ClCompile Include="Features\Battle\CombatWeaponCatalog.cpp" />
+    <ClInclude Include="Features\Battle\CombatDamage.h" />
+    <ClCompile Include="Features\Battle\CombatDamage.cpp" />
+    <ClInclude Include="Features\Battle\CombatGeometry.h" />
+    <ClCompile Include="Features\Battle\CombatGeometry.cpp" />
+    <ClInclude Include="Features\Battle\CombatWeaponCatalogData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Persistence\Migrations\CreateMatchSettlements.sql" />
+    <None Include="Application\LocalMatchRules.example.ini" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="Features\Battle\CombatScene.h"></ClInclude>
+    <ClCompile Include="Features\Battle\CombatScene.cpp"></ClCompile>
+    <ClInclude Include="Features\Battle\CombatMovementTimeline.h"></ClInclude>
+    <ClCompile Include="Features\Battle\CombatMovementTimeline.cpp"></ClCompile>
+    <ClInclude Include="Features\Battle\FighterAttributeCatalog.h"></ClInclude>
+    <ClCompile Include="Features\Battle\FighterAttributeCatalog.cpp"></ClCompile>
+    <ClInclude Include="Features\Battle\CombatSceneData.h"></ClInclude>
+    <ClInclude Include="Features\Battle\FighterAttributeCatalogData.h"></ClInclude>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="Features\Battle\FighterMaximumHealth.h"></ClInclude>
+    <ClCompile Include="Features\Battle\FighterMaximumHealth.cpp"></ClCompile>
+    <ClInclude Include="Features\Battle\FighterHealthCatalogData.h"></ClInclude>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClCompile Include="Protocol\GameBubbleSettledNotification.cpp" />
+    <ClInclude Include="Protocol\GameBubbleSettledNotification.h" />
+    <ClCompile Include="Protocol\GameWeaponSwitchNotification.cpp" />
+    <ClInclude Include="Protocol\GameWeaponSwitchNotification.h" />
+    <ClCompile Include="Protocol\PlazaMovement.cpp" />
+    <ClInclude Include="Protocol\PlazaMovement.h" />
+    <ClCompile Include="Protocol\SceneDescriptorNotification.cpp" />
+    <ClInclude Include="Protocol\SceneDescriptorNotification.h" />
+    <ClCompile Include="Features\Lobby\PlazaRegistry.cpp" />
+    <ClInclude Include="Features\Lobby\PlazaRegistry.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol\GameBubbleActionStartNotification.h"></ClInclude>
+    <ClCompile Include="Protocol\GameBubbleActionStartNotification.cpp"></ClCompile>
+    <ClInclude Include="Protocol\GameBubbleActionEndNotification.h"></ClInclude>
+    <ClInclude Include="Protocol\GameBubbleActionCompleteNotification.h"></ClInclude>
+    <ClInclude Include="Protocol\ClientToServerMessage0x800B.h"></ClInclude>
+    <ClInclude Include="Protocol\ClientToServerMessage0x800C.h"></ClInclude>
+    <ClInclude Include="Protocol\ClientToServerMessage0x800D.h"></ClInclude>
+    <ClInclude Include="Protocol\ClientToServerMessage0x800E.h"></ClInclude>
+    <ClInclude Include="Protocol\ClientToServerMessage0x802D.h"></ClInclude>
+    <ClCompile Include="Protocol\GameBubbleActionEndNotification.cpp"></ClCompile>
+    <ClCompile Include="Protocol\GameBubbleActionCompleteNotification.cpp"></ClCompile>
+    <ClCompile Include="Protocol\ClientToServerMessage0x800B.cpp"></ClCompile>
+    <ClCompile Include="Protocol\ClientToServerMessage0x800C.cpp"></ClCompile>
+    <ClCompile Include="Protocol\ClientToServerMessage0x800D.cpp"></ClCompile>
+    <ClCompile Include="Protocol\ClientToServerMessage0x800E.cpp"></ClCompile>
+    <ClCompile Include="Protocol\ClientToServerMessage0x802D.cpp"></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol\ChatRequest.h"></ClInclude>
+    <ClCompile Include="Protocol\ChatRequest.cpp"></ClCompile>
+    <ClInclude Include="Protocol\ChatNotification.h"></ClInclude>
+    <ClCompile Include="Protocol\ChatNotification.cpp"></ClCompile>
+    <ClInclude Include="Features\Chat\SceneChat.h"></ClInclude>
+    <ClCompile Include="Features\Chat\SceneChat.cpp"></ClCompile>
+  </ItemGroup>
+  <ItemGroup><ClInclude Include="Features\Chat\ChatExpressionData.h"></ClInclude></ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol\GameMeleeAttackNotification.h"></ClInclude>
+    <ClCompile Include="Protocol\GameMeleeAttackNotification.cpp"></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol\GameWeaponImpactNotification.h"></ClInclude>
+    <ClCompile Include="Protocol\GameWeaponImpactNotification.cpp"></ClCompile>
+    <ClInclude Include="Protocol\GameGrenadeDetonateNotification.h"></ClInclude>
+    <ClCompile Include="Protocol\GameGrenadeDetonateNotification.cpp"></ClCompile>
+    <ClInclude Include="Protocol\GameStompStartNotification.h"></ClInclude>
+    <ClCompile Include="Protocol\GameStompStartNotification.cpp"></ClCompile>
+    <ClInclude Include="Protocol\GameStompHitNotification.h"></ClInclude>
+    <ClCompile Include="Protocol\GameStompHitNotification.cpp"></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Features\Rooms\ResultAwardRules.h"></ClInclude>
+    <ClCompile Include="Features\Rooms\ResultAwardRules.cpp"></ClCompile>
   </ItemGroup>
 </Project>

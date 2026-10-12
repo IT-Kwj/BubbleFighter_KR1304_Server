@@ -35,11 +35,12 @@ namespace BubbleFighter::Server::Features::Authentication
         success.ServerTimeBits = std::bit_cast<std::uint64_t>(date);
         success.GameMasterValue = 0;
 
-        // E039: preserve the original aggregate constructor's initial values
-        // at +64/+68/+72. No direct +64 stack-slot use was found in 9A2770;
-        // +68/+72 are copied to connection +2508/+2512. Full meanings unknown.
+        // +64/+72 keep E039's neutral baseline. E090: +68 is copied to
+        // connection +2508 (9A38C4); category 0 skips the lobby's initial C401
+        // and its refresh timer (8530C0/858E70). Use the client's free category
+        // 60 (10EA190), an explicit single-category local server policy.
         success.UnknownValue = 0xFFFFFFFFU;
-        success.ChannelCategory = 0;
+        success.ChannelCategory = 60;
         success.UnknownConnectionValue = 0;
         // E039: original LoginNational constructor is zero/empty/false. Local
         // accounts supply no external provider metadata or analytics extension.

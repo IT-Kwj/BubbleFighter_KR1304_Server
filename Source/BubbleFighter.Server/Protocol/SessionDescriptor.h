@@ -30,8 +30,8 @@ namespace BubbleFighter::Server::Protocol
     // not a server-approved room/plaza configuration.
     struct SessionConfiguration
     {
-        std::uint32_t ValueAt0 = 0;
-        std::uint16_t ShortAt4 = 0;
+        std::uint32_t ValueAt0 = 0; // Session flags; full bit semantics remain incomplete.
+        std::uint16_t ShortAt4 = 0; // Mode; native reader sign-extends to int32.
         std::uint32_t BooleanAt8 = 0;
         std::array<std::uint32_t, 6> ValuesAt20{};
         std::array<std::u16string, 4> TextsAt44;
@@ -65,8 +65,9 @@ namespace BubbleFighter::Server::Protocol
         std::array<std::uint16_t, 3> ShortsAt32{};
         std::uint32_t BooleanAt38 = 0;
         std::u16string TextAt40;
-        // Handler 0x009AC490: 1 -> stage 2, 2 -> stage 4,
-        // 3 -> stage 3 (plaza), 6 -> stage 15. Unknown values are preserved.
+        // Handler 0x009AC490: 1 -> stage 2, 3 -> stage 3, 6 -> stage 15.
+        // Type 2 usually selects stage 4, but mode 40 (and other special modes)
+        // skips that switch while status != 4 and waits for later loading.
         std::uint32_t SessionType = 0;
         SessionConfiguration Configuration;
         std::uint32_t ValueAt68 = 0;

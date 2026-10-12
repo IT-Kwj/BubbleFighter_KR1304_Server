@@ -37,6 +37,11 @@ namespace BubbleFighter::Server::Features::Authentication
         packets.push_back(equipment.Encode());
         packets.push_back(data.Presets.Encode());
         packets.push_back(inventory.Encode());
+        if (data.Cash)
+        {
+            if (data.Cash->CharacterId != character.CharacterId) { throw std::invalid_argument("Menu cash owner mismatch."); }
+            packets.push_back(data.Cash->CreateNotification(authenticatedAccountId).Encode());
+        }
         return packets;
     }
 }

@@ -16,10 +16,14 @@ namespace BubbleFighter::Server::Features::Shop
         std::uint32_t SubCategory;
         std::uint32_t DisplayOrder;
         ShopCurrency Currency;
-        // Explicit local publication policy interprets unzoned XML dates as
-        // UTC, with a half-open interval. These are NOT opaque wire fields.
+        // Historical resource sale dates retained as UTC metadata. The full
+        // local shop does not filter by them. These are NOT opaque wire fields.
         std::uint64_t AvailableFrom;
         std::uint64_t AvailableUntil;
+        // E063 resource maxDuration; count/day unit follows ItemDefinition::Usage.
+        std::uint32_t MaxAmount;
+        // Preserve the signed resource value; it is not a boolean.
+        std::int32_t BuyAgain;
     };
 
     struct ShopCategoryDefinition

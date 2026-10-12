@@ -37,6 +37,7 @@ namespace BubbleFighter::Server::Features::Shop
     Protocol::ShopEntryResponse LocalShopCatalog::Create(const Protocol::ShopEntryRequest& request,
         const Characters::CharacterRecord& character, std::uint64_t observedAtUnixSeconds)
     {
+        (void)observedAtUnixSeconds; // Full catalog is independent of historical sale windows.
         if (character.AccountId == 0 || character.CharacterId == 0 || !character.Statistics.IsValid() ||
             !Characters::CharacterCreation::SupportsSelection(character.CharacterType, character.ColorIndex))
         { throw std::invalid_argument("Shop browsing requires a trusted persisted character."); }
@@ -47,13 +48,11 @@ namespace BubbleFighter::Server::Features::Shop
         response.RefreshCatalog = true;
         // Opaque wide fields and the exclusion list stay at the explicit local
         // zero/empty baseline. Their original server meanings remain unknown;
-        // resource timestamps are used only for filtering, never reinterpreted
+        // resource timestamps stay in metadata and are never reinterpreted
         // as these wire values. See E062 limitations before extending policy.
         std::map<std::uint32_t, std::size_t> itemIndices;
         for (const auto& definition : ShopCatalog::Items())
         {
-            if (observedAtUnixSeconds < definition.AvailableFrom || observedAtUnixSeconds >= definition.AvailableUntil)
-            { continue; }
             const auto categories = ShopCatalog::Categories();
             const auto category = std::find_if(categories.begin(), categories.end(),
                 [&](const auto& value) { return value.Identifier == definition.MainCategory; });
@@ -69,12 +68,12 @@ namespace BubbleFighter::Server::Features::Shop
             itemIndices.emplace(definition.ItemId, response.Items.size());
             response.Items.push_back(std::move(card));
         }
-        // Keep the resource Stock-ID order, including all listed durations.
+        // Preserve all resource Stock prices/durations, including unlisted ones.
         // The first option is the local representative price, not a recovered
         // original server default. Client preview renders up to three options.
-        for (const auto& stock : ShopStockCatalog::Entries())
+        for (const auto stocks : {ShopStockCatalog::Entries(), ShopStockCatalog::FallbackEntries()})
+        for (const auto& stock : stocks)
         {
-            if (!stock.ResourceListed) { continue; }
             const auto item = itemIndices.find(stock.ItemId);
             if (item == itemIndices.end()) { continue; }
             response.Items[item->second].Prices.push_back({stock.StockId, stock.ItemId, true,
@@ -103,7 +102,7 @@ namespace BubbleFighter::Server::Features::Shop
             response.Categories.push_back(std::move(category));
         }
         // Content revision excludes the requested selection and wall clock.
-        // It changes when filtered offers, prices, labels or page data change.
+        // It changes when offers, prices, labels or page data change.
         // SHA-256's first eight bytes are a cache hint, never authorization.
         const auto hash = HashCatalog(response.Encode().Payload);
         for (std::size_t index = 0; index < 8; ++index)

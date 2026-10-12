@@ -24,6 +24,8 @@ namespace BubbleFighter::Server::Features::Shop
     {
     public:
         static std::span<const ShopStockDefinition> Entries() noexcept;
+        // User-authorized local offers only for items without any resource Stock.
+        static std::span<const ShopStockDefinition> FallbackEntries() noexcept;
         static const ShopStockDefinition* Find(std::uint32_t stockId) noexcept;
     };
 }

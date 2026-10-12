@@ -47,8 +47,8 @@ namespace BubbleFighter::Server::Features::Authentication
         data.Member.ValuesAt172[2] = 1;
         const auto playerId = static_cast<std::uint32_t>(character.CharacterId);
         data.Presets.PlayerId = playerId;
-        // No starter items or preset pages are granted by current local policy.
-        // Empty inventory here means an actual successful database load.
+        // This generic assembler grants no items or pages. The MySQL provider
+        // installs its loaded primary-weapon presets separately (E066).
         data.Inventory = std::move(inventory);
         return data;
     }

@@ -42,6 +42,34 @@ namespace BubbleFighter::Server::Features::Scenes
         {
             throw std::invalid_argument("Only menu/plaza scene rosters are supported.");
         }
+        return Bind(std::move(envelope), slots, localSlot, authenticatedAccountId);
+    }
+
+    Protocol::GotoRoomNotification SceneRoster::ComposePractice(Protocol::GotoRoomNotification envelope,
+        const SceneSlot& player, std::uint64_t authenticatedAccountId)
+    {
+        if (envelope.Descriptor.SessionType != 2 || envelope.Descriptor.Configuration.ShortAt4 != 40 ||
+            envelope.Descriptor.Configuration.ValueAt0 != 0)
+        {
+            throw std::invalid_argument("Only the local single-player training configuration is supported.");
+        }
+        // 9D9250 selects capacity {12,12,16} for type 2, mode 40. Slot zero
+        // is within both participant and total bounds; no empty remote peers.
+        return Bind(std::move(envelope), std::span{&player, 1}, 0, authenticatedAccountId);
+    }
+
+    Protocol::GotoRoomNotification SceneRoster::ComposeRoom(Protocol::GotoRoomNotification envelope,
+        std::span<const SceneSlot> slots, std::uint32_t localSlot, std::uint64_t authenticatedAccountId)
+    {
+        if (envelope.Descriptor.SessionType != 2 || envelope.Descriptor.Configuration.ShortAt4 != 1 ||
+            slots.size() > 16 || envelope.Descriptor.Configuration.ValueAt0 != 0)
+        { throw std::invalid_argument("Unsupported ordinary room configuration."); }
+        return Bind(std::move(envelope), slots, localSlot, authenticatedAccountId);
+    }
+
+    Protocol::GotoRoomNotification SceneRoster::Bind(Protocol::GotoRoomNotification envelope,
+        std::span<const SceneSlot> slots, std::uint32_t localSlot, std::uint64_t authenticatedAccountId)
+    {
         if (!envelope.Members.empty() || !envelope.RecordsAt564.empty() || !envelope.RecordsAt588.empty())
         {
             throw std::invalid_argument("Scene envelope already contains a roster.");

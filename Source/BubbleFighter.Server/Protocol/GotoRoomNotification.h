@@ -13,6 +13,8 @@
 
 namespace BubbleFighter::Server::Protocol
 {
+    class PacketReader;
+    class PacketWriter;
     struct SessionMemberOptionalFields
     {
         std::array<std::uint32_t, 2> ValuesAt204{};
@@ -75,6 +77,14 @@ namespace BubbleFighter::Server::Protocol
         std::array<std::vector<std::uint32_t>, 2> Values;
         bool operator==(const SessionTeam&) const = default;
     };
+
+    // Shared original record codecs used by S117, S503 and S511.
+    void WriteSessionMember(PacketWriter& writer, const SessionMember& value, std::size_t& budget);
+    SessionMember ReadSessionMember(PacketReader& reader, std::size_t& budget);
+    void WriteSessionRecords(PacketWriter& writer, const std::vector<PartySupplementaryRecord>& records, std::size_t& budget);
+    std::vector<PartySupplementaryRecord> ReadSessionRecords(PacketReader& reader, std::size_t& budget);
+    void WriteSessionTeam(PacketWriter& writer, const SessionTeam& team, std::size_t& budget);
+    SessionTeam ReadSessionTeam(PacketReader& reader, std::size_t& budget);
 
     struct SessionOptionalValueGroup
     {
