@@ -1,5 +1,21 @@
 # 编译与发布工作流
 
+## 自动编译检查
+
+[Build and Test](../.github/workflows/build.yml) 在所有分支 push 和 pull request 时自动运行，也支持手动触发。Debug/Release x64 分别执行构建、回归、启动与握手及工程兼容检查；一种配置失败后，另一种配置仍继续检查。同一分支或 PR 的新提交会取消旧的自动检查。
+
+编译出错时，Actions 中对应配置的任务显示失败，并提供：
+
+- **Annotations**：错误码、原始错误说明及可定位的文件、行号和列号。
+- **Summary**：各阶段结果与前 12 个不同错误；区分依赖准备、编译及测试的失败。
+- **Artifacts**：`build-logs-<Debug或Release>-<run_id>-<run_attempt>`，保留 14 天；内含 MSBuild 全文日志、独立错误日志、编译控制台日志、摘要及各阶段测试日志。
+
+例如 `C2065` 会保留未声明标识符的名称和所在行，`LNK2019` 会保留未解析符号，`MSB8020` 会保留缺失工具集的说明。没有匹配到结构化错误时，摘要会提示查看控制台和全文日志；诊断脚本不猜测原因。错误摘要写入 `GITHUB_STEP_SUMMARY`，实际失败状态来自原构建或测试步骤。
+
+自动检查使用 `contents: read`。发布工作流仍通过下方的手动入口执行。
+
+## 手动发布
+
 [Build and Release](../.github/workflows/release.yml) 参考 PKNPacker 的手动发布流程。提交到默认分支后，在 GitHub 的 **Actions → Build and Release → Run workflow** 选择要构建的分支或标签，并填写：
 
 - `tag`：必填，例如 `v1.0.0`。新标签在所有检查通过后随 Release 创建；已有标签必须指向本次选择的提交。
@@ -47,6 +63,14 @@ python tests/runtime_smoke_test.py
 构建和打包脚本接受 `-MySqlRoot`。使用自备 MySQL 目录打包时，该目录还须包含官方发行包的 `LICENSE`、`README`、`docs/INFO_BIN` 和 `docs/INFO_SRC`。打包自动查找 Visual Studio 的 x64 `Microsoft.VC143.CRT`，也可通过 `-RuntimeDirectory` 指定同类目录。
 
 编译日志在 `Artifacts/Logs/`，启动日志在 `Artifacts/smoke/`，发布文件在 `Artifacts/Distribution/`。即使构建或测试失败，已有诊断日志仍会作为 Actions 产物上传；Release 步骤须等待前置检查全部成功。
+
+自动检查的编译错误日志为 `Artifacts/Logs/build-<配置>.errors.log`，全文日志为 `build-<配置>.log`。可在本地运行诊断样例测试及报告脚本：
+
+```powershell
+python -m unittest discover -s tests -p build_report_test.py
+$env:COMPILE_OUTCOME = 'success' # 根据真实构建结果填写 failure 或 success
+python build/report_build.py --configuration Debug
+```
 
 ## 本次验证
 

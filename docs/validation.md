@@ -105,3 +105,31 @@ git diff --check
 | 工程、文档和兼容清单 | 通过；生产 C++、协议和数据库迁移没有修改 |
 
 打包脚本及工作流在本机完成了构建、测试和打包路径验证；GitHub runner 尚未实际执行，远程标签与 Release 未创建。MySQL 8.4.11 客户端库的本地构建和基础网络运行通过，不代表真实数据库业务或真实游戏客户端验收。
+
+## 自动编译与失败诊断验证（2026-10-13）
+
+新增 [Build and Test](../.github/workflows/build.yml)，在分支 push 和 pull request 时检查 Debug/Release，失败后始终生成摘要并上传日志。构建脚本新增 UTF-8 独立错误日志，诊断报告保留编译器原始说明及可定位的文件、行号和列号；详见 [CI 说明](ci.md)。
+
+```powershell
+./build/build.ps1 -Configuration Debug
+./Artifacts/Tests/x64/Debug/BubbleFighter.Regression.exe tests/compatibility_packets.txt
+./build/build.ps1 -Configuration Release
+./Artifacts/Tests/x64/Release/BubbleFighter.Regression.exe tests/compatibility_packets.txt
+& $pythonExe tests/runtime_smoke_test.py
+& $pythonExe -m unittest discover -s tests -p build_report_test.py
+./Artifacts/Tools/actionlint/actionlint.exe .github/workflows/build.yml .github/workflows/release.yml
+& $pythonExe build/verify.py
+git diff --check
+```
+
+| 检查 | 结果 |
+| --- | --- |
+| Debug/Release 构建与回归 | 两套构建成功；各通过 79 项检查及 16 组冻结报文 |
+| Debug/Release 启动与握手 | 各通过 7 项检查 |
+| 诊断报告样例 | 8 项测试通过：MSVC 位置、相对路径、重复诊断、链接错误、MSBuild 错误、注释转义、摘要范围及失败阶段 |
+| 真实编译失败 | 隔离故障工程第 2 行产生 `C2065`；执行实际工作流编译脚本块，进程返回非零，错误日志、错误注释及任务摘要均保留未声明标识符和正确行号 |
+| 成功构建摘要 | 两套摘要报告编译成功和零错误，向模拟 `GITHUB_STEP_SUMMARY` 追加内容正确 |
+| 工作流和脚本 | 两份工作流通过 actionlint 1.7.12；六个新增脚本块及改动后的构建脚本通过 PowerShell 解析 |
+| 工程与兼容清单 | 通过；生产代码及迁移未修改 |
+
+故障探针仅在被忽略的 `Artifacts/compile-failure-*` 中创建小型测试工程，原项目保持可编译。诊断步骤成功不会覆盖原编译步骤的失败状态。GitHub runner 上的 push/PR 自动触发和最终页面展示仍需推送后验证，本次未创建远程任务或发布。

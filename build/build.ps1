@@ -26,13 +26,15 @@ $msbuild = Join-Path $installationPath 'MSBuild/Current/Bin/MSBuild.exe'
 $logs = Join-Path $repositoryRoot 'Artifacts/Logs'
 New-Item -ItemType Directory -Force -Path $logs | Out-Null
 $buildLog = Join-Path $logs "build-$Configuration.log"
+$errorLog = Join-Path $logs "build-$Configuration.errors.log"
 
 Push-Location $repositoryRoot
 try {
     & $msbuild BubbleFighter.Server.sln /m:2 /nologo /v:minimal `
         "/p:Configuration=$Configuration" /p:Platform=x64 `
         "/p:CL_MPCount=$ParallelBuildCount" "/p:MySqlRoot=$MySqlRoot" `
-        "/flp:logfile=$buildLog;verbosity=normal"
+        "/flp:logfile=$buildLog;verbosity=normal;encoding=UTF-8" `
+        "/flp2:logfile=$errorLog;errorsonly;encoding=UTF-8"
     if ($LASTEXITCODE -ne 0) {
         throw "MSBuild failed for $Configuration; see $buildLog."
     }
