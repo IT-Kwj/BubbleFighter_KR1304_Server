@@ -14,9 +14,18 @@
 | 系统库 | `Ws2_32.lib`、`Bcrypt.lib` |
 | 外部开发文件 | MySQL C API 的头文件、导入库与运行时文件，通过 `MySqlRoot` 指定 |
 
-安装包含上述工具集和 SDK 的 Visual Studio / MSBuild 环境。MySQL 开发文件需要自行准备，当前仓库没有依赖下载脚本。
+安装包含上述工具集和 SDK 的 Visual Studio / MSBuild 环境。[setup_dependencies.py](../build/setup_dependencies.py) 可下载固定版本的 MySQL 开发文件，核查 SHA-256 后提取头文件、库、运行时及发行说明。
 
 ## 编译
+
+使用固定依赖和自动定位 MSBuild 的入口：
+
+```powershell
+python .\build\setup_dependencies.py
+.\build\build.ps1 -Configuration Release
+```
+
+Python 要求 3.12 或更高版本。GitHub Actions 的编译、测试和发布流程见 [CI 说明](ci.md)。
 
 将下面的 `C:\MySQL` 替换为实际提供 MySQL 开发文件的目录：
 
@@ -27,7 +36,7 @@ msbuild .\BubbleFighter.Server.sln /m /p:Configuration=Release /p:Platform=x64 "
 
 调试构建将 `Configuration=Release` 改为 `Configuration=Debug`。也可以在 Visual Studio 中打开 [解决方案](../BubbleFighter.Server.sln)，选择 `x64` 和所需配置；使用自定义依赖路径时，在启动 VS 前设置环境变量 `MySqlRoot`。
 
-`MySqlRoot` 默认指向 `Artifacts/Dependencies/mysql-8.4.11-winx64`。这是属性表的查找路径，仓库没有提供该目录或自动安装步骤。属性表的错误提示要求 MySQL 8.4 x64 ZIP 安装，实际检查的是以下文件是否存在：
+`MySqlRoot` 默认指向 `Artifacts/Dependencies/mysql-8.4.11-winx64`，准备脚本写入此目录。也可自行提供开发文件并覆盖路径。属性表的错误提示要求 MySQL 8.4 x64 ZIP 安装，实际检查的是以下文件是否存在：
 
 | 相对于 `MySqlRoot` 的路径 | 构建用途 |
 | --- | --- |

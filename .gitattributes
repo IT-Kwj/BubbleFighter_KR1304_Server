@@ -5,6 +5,8 @@
 *.md text eol=lf
 *.json text eol=lf
 *.ini text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
 *.sln text eol=crlf
 *.vcxproj text eol=crlf
 *.filters text eol=crlf

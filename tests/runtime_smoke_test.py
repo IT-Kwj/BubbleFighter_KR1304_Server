@@ -49,10 +49,9 @@ def receive_exactly(connection, length):
   return bytes(received)
 
 
-def check_configuration(configuration):
-  executable = ROOT / 'Artifacts/Bin/x64' / configuration / 'BubbleFighter.Server.exe'
-  require(executable.is_file(), 'Build the ' + configuration + ' production executable first')
-  log_dir = ROOT / 'Artifacts/smoke' / configuration
+def check_executable(executable, label):
+  require(executable.is_file(), 'Production executable is missing: ' + str(executable))
+  log_dir = ROOT / 'Artifacts/smoke' / label
   log_dir.mkdir(parents=True, exist_ok=True)
 
   help_result = run_cli(executable, ['--help'], 'help', log_dir)
@@ -106,16 +105,23 @@ def check_configuration(configuration):
         except subprocess.TimeoutExpired:
           process.kill()
           process.wait(timeout=5)
-  print(configuration + ': 7 runtime smoke checks passed (CLI, listen, greeting, handshake, exit)')
+  print(label + ': 7 runtime smoke checks passed (CLI, listen, greeting, handshake, exit)')
 
 
 def main():
   parser = argparse.ArgumentParser(description=__doc__)
-  parser.add_argument('--configuration', nargs='+', choices=['Debug', 'Release'],
+  target = parser.add_mutually_exclusive_group()
+  target.add_argument('--configuration', nargs='+', choices=['Debug', 'Release'],
                       default=['Debug', 'Release'])
+  target.add_argument('--executable', type=pathlib.Path,
+                      help='Check an extracted release executable instead of build outputs')
   arguments = parser.parse_args()
-  for configuration in arguments.configuration:
-    check_configuration(configuration)
+  if arguments.executable:
+    check_executable(arguments.executable.resolve(), 'Package')
+  else:
+    for configuration in arguments.configuration:
+      executable = ROOT / 'Artifacts/Bin/x64' / configuration / 'BubbleFighter.Server.exe'
+      check_executable(executable, configuration)
 
 
 if __name__ == '__main__':
